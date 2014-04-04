@@ -37,16 +37,16 @@ module Dt
   end
 
   class IndeterminateTask
-    attr_reader :tick_count
+    attr_reader :tick_count, :complete_time
 
-    def initialize
+    def initialize(opts = {})
       @tick_count = 0
       @duration_per_tick = 0
       @duration_per_tick_history = CappedSample.new(100)
     end
 
     def start_time
-      @start_time ||= Time.now
+      @start_time
     end
 
     def elapsed_duration
@@ -54,7 +54,7 @@ module Dt
     end
 
     def total_duration
-      @end_time - @start_time
+      @complete_time - @start_time
     end
 
     def start
@@ -69,7 +69,6 @@ module Dt
       this_tick_time = Time.now
       duration_this_tick = this_tick_time - (@last_tick_time || start_time)
       @duration_per_tick_history << duration_this_tick
-
       @last_tick_time = this_tick_time
       @tick_count += 1
     end
@@ -78,29 +77,97 @@ module Dt
       @complete_time = Time.now
     end
   end
+
+  class DeterminateTask < IndeterminateTask
+    def initialize(opts = {})
+      super
+      @total_ticks = opts[:total_ticks]
+    end
+
+    def estimated_duration_until_complete
+      ticks_remaining = [@total_ticks - @tick_count, 0].max
+      ticks_remaining * duration_per_tick
+    end
+  end
+
+  class MultiLineReporter
+    def initialize(task, label, io = STDOUT)
+      @task = task
+      @label = label
+      @io = io
+    end
+
+    def print_start
+      @io.puts "Starting #{@label}"
+    end
+
+    def print_tick
+      ticks_per_second = (1 / @task.duration_per_tick).round(2)
+      elapsed_time = (@task.elapsed_duration / 60.0).round(2)
+
+      if @task.respond_to?(:estimated_duration_until_complete)
+        estimated_duration_until_complete = (@task.estimated_duration_until_complete / 60.0).round(2)
+        @io.puts "Running #{@label}, #{elapsed_time} minutes elapsed, #{estimated_duration_until_complete} minutes remaining"
+      else
+        @io.puts "Running #{@label}, #{elapsed_time} minutes elapsed, #{ticks_per_second} ticks/second"
+      end
+    end
+
+    def print_complete
+      @io.puts "Completed #{@label}, #{@task.total_duration} total duration"
+    end
+  end
+
+  class SingleLineReporter
+    def initialize(task, label, io = STDOUT)
+      @task = task
+      @label = label
+      @io = io
+    end
+
+    def print_start
+      @io.print "Starting #{@label}"
+    end
+
+    def print_tick
+      ticks_per_second = (1 / @task.duration_per_tick).round(2)
+      elapsed_time = (@task.elapsed_duration / 60.0).round(2)
+
+      if @task.respond_to?(:estimated_duration_until_complete)
+        estimated_duration_until_complete = (@task.estimated_duration_until_complete / 60.0).round(2)
+        @io.print "{#{elapsed_time}/#{estimated_duration_until_complete} mins}"
+      else
+        @io.print "{#{elapsed_time} mins, #{ticks_per_second} ticks/sec}"
+      end
+    end
+
+    def print_complete
+      @io.puts "complete."
+    end
+  end
 end
 
 task = Dt::IndeterminateTask.new
-i = 0
+reporter = Dt::MultiLineReporter.new(task, "indeterminate task")
 task.start
+reporter.print_start
 loop do
-  break if rand(1_000) == 500
-  sleep 0.01
-  i += 1
+  break if rand(200) == 50
+  sleep 0.1
   task.tick
-
-  if i % 10 == 0
-    puts "Start time:    #{task.start_time}"
-    puts "Elapsed time:  #{task.elapsed_duration}"
-    puts "Time per tick: #{task.duration_per_tick}"
-    puts "Tick count:    #{task.tick_count}"
-    puts
-  end
+  reporter.print_tick if task.tick_count % 10 == 0
 end
 task.complete
+reporter.print_complete
 
-puts
-puts "Start time:    #{task.start_time}"
-puts "Elapsed time:  #{task.elapsed_duration}"
-puts "Time per tick: #{task.duration_per_tick}"
-puts "Tick count:    #{task.tick_count}"
+task = Dt::DeterminateTask.new(total_ticks: 50)
+reporter = Dt::SingleLineReporter.new(task, "determinate task")
+task.start
+reporter.print_start
+50.times do
+  sleep 0.1
+  task.tick
+  reporter.print_tick if task.tick_count % 10 == 0
+end
+task.complete
+reporter.print_complete
