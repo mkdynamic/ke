@@ -1,4 +1,4 @@
-module Dt
+module Ke
   class DeterminateTask < IndeterminateTask
     def initialize(opts = {})
       super

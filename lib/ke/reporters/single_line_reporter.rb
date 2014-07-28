@@ -1,5 +1,5 @@
-module Dt
-  class MultiLineReporter
+module Ke
+  class SingleLineReporter
     def initialize(task, label, io = STDOUT)
       @task = task
       @label = label
@@ -7,7 +7,7 @@ module Dt
     end
 
     def print_start
-      @io.puts "Starting #{@label}"
+      @io.print "Starting #{@label}"
     end
 
     def print_tick
@@ -16,14 +16,14 @@ module Dt
 
       if @task.respond_to?(:estimated_duration_until_complete)
         estimated_duration_until_complete = (@task.estimated_duration_until_complete / 60.0).round(2)
-        @io.puts "Running #{@label}, #{elapsed_time} minutes elapsed, #{estimated_duration_until_complete} minutes remaining"
+        @io.print "{#{elapsed_time}/#{estimated_duration_until_complete} mins}"
       else
-        @io.puts "Running #{@label}, #{elapsed_time} minutes elapsed, #{ticks_per_second} ticks/second"
+        @io.print "{#{elapsed_time} mins, #{ticks_per_second} ticks/sec}"
       end
     end
 
     def print_complete
-      @io.puts "Completed #{@label}, #{@task.total_duration} total duration"
+      @io.puts "complete."
     end
   end
 end

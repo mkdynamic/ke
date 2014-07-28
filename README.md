@@ -1,4 +1,4 @@
-# dt [![Build Status](https://travis-ci.org/mkdynamic/dt.png)](https://travis-ci.org/mkdynamic/dt)
+# ke [![Build Status](https://travis-ci.org/mkdynamic/ke.png)](https://travis-ci.org/mkdynamic/ke)
 
 Measure progress of Ruby code with the ability to provide estimates for time until completion.
 
@@ -6,15 +6,15 @@ Supports tasks with a known (determinate) and unknown (indeterminate) number of 
 
 ## Usage
 
-Install them gem with `gem install dt`. If you're using Bundler then add it to your Gemfile with `gem dt` and run `bundle install`. Usage examples below:
+Install them gem with `gem install ke`. If you're using Bundler then add it to your Gemfile with `gem ke` and run `bundle install`. Usage examples below:
 
 ### Example 1: An indeterminate task with a multi line reporting output
 
 ```ruby
-require 'dt'
+require 'ke'
 
-task = Dt::IndeterminateTask.new
-reporter = Dt::MultiLineReporter.new(task, "indeterminate task")
+task = Ke::IndeterminateTask.new
+reporter = Ke::MultiLineReporter.new(task, "indeterminate task")
 task.start
 reporter.print_start
 loop do
@@ -30,10 +30,10 @@ reporter.print_complete
 ### Example 2: A determinate task with a single line reporting output
 
 ```ruby
-require 'dt'
+require 'ke'
 
-task = Dt::DeterminateTask.new(total_ticks: 50)
-reporter = Dt::SingleLineReporter.new(task, "determinate task")
+task = Ke::DeterminateTask.new(total_ticks: 50)
+reporter = Ke::SingleLineReporter.new(task, "determinate task")
 task.start
 reporter.print_start
 50.times do

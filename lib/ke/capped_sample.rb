@@ -1,4 +1,4 @@
-module Dt
+module Ke
   class CappedSample
     def initialize(limit)
       @array = []

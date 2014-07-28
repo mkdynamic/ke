@@ -1,7 +1,7 @@
 require 'test_helper'
 
-task = Dt::IndeterminateTask.new
-reporter = Dt::MultiLineReporter.new(task, "indeterminate task")
+task = Ke::IndeterminateTask.new
+reporter = Ke::MultiLineReporter.new(task, "indeterminate task")
 task.start
 reporter.print_start
 loop do
@@ -13,8 +13,8 @@ end
 task.complete
 reporter.print_complete
 
-task = Dt::DeterminateTask.new(total_ticks: 50)
-reporter = Dt::SingleLineReporter.new(task, "determinate task")
+task = Ke::DeterminateTask.new(total_ticks: 50)
+reporter = Ke::SingleLineReporter.new(task, "determinate task")
 task.start
 reporter.print_start
 50.times do

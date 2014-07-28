@@ -1,2 +1,2 @@
-require 'dt'
+require 'ke'
 require 'minitest/autorun'

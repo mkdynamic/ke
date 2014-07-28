@@ -1,4 +1,4 @@
-module Dt
+module Ke
   class IndeterminateTask
     attr_reader :tick_count, :complete_time
 

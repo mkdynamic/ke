@@ -1,6 +1,0 @@
-require 'dt/version'
-require 'dt/capped_sample'
-require 'dt/indeterminate_task'
-require 'dt/determinate_task'
-require 'dt/reporters/single_line_reporter'
-require 'dt/reporters/multi_line_reporter'
