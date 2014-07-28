@@ -1,4 +1,4 @@
-# ke [![Build Status](https://travis-ci.org/mkdynamic/ke.png)](https://travis-ci.org/mkdynamic/ke)
+# Ke [![Build Status](https://travis-ci.org/mkdynamic/ke.png)](https://travis-ci.org/mkdynamic/ke)
 
 Measure progress of Ruby code with the ability to provide estimates for time until completion.
 
