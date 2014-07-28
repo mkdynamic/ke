@@ -7,9 +7,9 @@ Gem::Specification.new do |spec|
   spec.version       = Dt::VERSION
   spec.authors       = ["Mark Dodwell"]
   spec.email         = ["mark@madeofcode.com"]
-  spec.description   = "TODO"
-  spec.summary       = "TODO"
-  spec.homepage      = "TODO"
+  spec.description   = "Measure progress of Ruby code."
+  spec.summary       = "Measure progress of Ruby code."
+  spec.homepage      = "https://github.com/mkdynamic/dt"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
