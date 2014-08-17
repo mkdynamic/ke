@@ -31,7 +31,7 @@ reporter.print_complete
 
 Output:
 
-![](http://cl.ly/image/3m133Z060y08/content.png)
+![](http://cl.ly/image/1q0G151B4113/content.png)
 
 ### Example 2: DeterminateTask + SingleLineReporter
 
@@ -53,7 +53,7 @@ reporter.print_complete
 
 Output:
 
-![](http://cl.ly/image/1q0G151B4113/content.png)
+![](http://cl.ly/image/3m133Z060y08/content.png)
 
 ## Custom reporters
 
