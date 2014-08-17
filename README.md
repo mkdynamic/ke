@@ -4,11 +4,13 @@ Measure progress of Ruby code with the ability to provide estimates for time unt
 
 Supports tasks with a known (determinate) and unknown (indeterminate) number of iterations. For indeterminate tasks it's only possible to provide a rate. For determinate tasks it's possible to provide both a rate and an estimated remaining time.
 
+Supports pluggable reporters to format output. Comes with a single and multiline reporter.
+
 ## Usage
 
 Install them gem with `gem install ke`. If you're using Bundler then add it to your Gemfile with `gem ke` and run `bundle install`. Usage examples below:
 
-### Example 1: An indeterminate task with a multi line reporting output
+### Example 1: IndeterminateTask + MultiLineReporter
 
 ```ruby
 require 'ke'
@@ -27,7 +29,11 @@ task.complete
 reporter.print_complete
 ```
 
-### Example 2: A determinate task with a single line reporting output
+Output:
+
+![](http://cl.ly/image/3m133Z060y08/content.png)
+
+### Example 2: DeterminateTask + SingleLineReporter
 
 ```ruby
 require 'ke'
@@ -44,6 +50,10 @@ end
 task.complete
 reporter.print_complete
 ```
+
+Output:
+
+![](http://cl.ly/image/1q0G151B4113/content.png)
 
 ## Custom reporters
 
