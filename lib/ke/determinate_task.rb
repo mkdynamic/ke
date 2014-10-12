@@ -1,5 +1,7 @@
 module Ke
   class DeterminateTask < IndeterminateTask
+    attr_reader :total_ticks
+
     def initialize(opts = {})
       super
       @total_ticks = opts[:total_ticks]
