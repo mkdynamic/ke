@@ -7,6 +7,7 @@ module Ke
       @duration_per_tick = 0
       @duration_per_tick_history = CappedSample.new(100)
       @mutex = Mutex.new
+      @last_tick_time = nil
     end
 
     def start_time
@@ -26,7 +27,7 @@ module Ke
     end
 
     def duration_per_tick
-      @duration_per_tick_history.mean
+      @duration_per_tick_history.mean_iqr
     end
 
     def tick
